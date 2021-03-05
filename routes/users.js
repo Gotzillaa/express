@@ -5,3 +5,4 @@ const usercontroller = require('../controller/userController')
 router.get('/', usercontroller.index);
 
 module.exports = router;
+2

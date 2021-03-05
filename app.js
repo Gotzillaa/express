@@ -2,12 +2,19 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const mongoose = require('mongoose') //!
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const companyRouter = require('./routes/company');
+const staffRouter = require('./routes/staff');
 
 const app = express();
+//*connection mongodb to cloud
+mongoose.connect(
+    "mongodb+srv://gotzilla:Zippy1992@cluster0.2cvzf.mongodb.net/onlinenodeapi",
+    { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true,useFindAndModify: false }
+  );
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -18,5 +25,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/company', companyRouter);
+app.use('/staff', staffRouter);
 
 module.exports = app;
