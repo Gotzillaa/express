@@ -12,26 +12,23 @@ exports.selectall = async (req, res, next) => {
 //*-------------------------------------------------------------------------show by id  
 exports.selectbyid = async (req, res, next) => {
   try {
-    const { id } = req.params
-    const staff = await Staff.findById(id) //*
-    //*const staff = await Staff.findOne({_id: req.params.id})  //.id มาจาก router /:id
-
+    //const { id } = req.params
+    //const staff = await Staff.findById(id) //*
+    const staff = await Staff.findOne({_id: req.params.id})  //.id มาจาก router /:id
     if (!staff) {
-      throw new Error('ไม่พบรหัสพนักงาน')
+      const error = new Error('ไม่พบรหัสพนักงาน')
+      error.statusCode= 400
+      throw error;
     }
     res.status(200).json({
       data: staff
     });
   } catch (error) {
-    res.status(400).json({
-      error: {
-        message: 'เกิดข้อผิดพาด' + error.message
-      }
-    })
+    next(error)
   }
 }
 
-////*-------------------------------------------------------------------------show by name
+//*-------------------------------------------------------------------------show by name
 exports.selectbyname = async (req, res, next) => {
   try {
     const { name } = req.params
@@ -161,4 +158,4 @@ exports.delete = async (req, res, next) => {
       }
     })
   }
-}
+} 
